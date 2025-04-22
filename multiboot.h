@@ -122,6 +122,14 @@ struct multiboot_elf_section_header_table
 };
 typedef struct multiboot_elf_section_header_table multiboot_elf_section_header_table_t; 
 
+
+
+
+#define MULTIBOOT_FRAMEBUFFER_TYPE_INDEXED  0 
+#define MULTIBOOT_FRAMEBUFFER_TYPE_RGB      1       
+#define MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT 2 
+
+
 struct multiboot_info
 {
     /*multiboot info verson number*/
@@ -155,9 +163,103 @@ struct multiboot_info
     multiboot_uint32_t  drives_addr;        /*addres of info in memory*/
 
     /*ROM config */ 
-    multiboot_uint32_t  config_table; :wq
+    multiboot_uint32_t  config_table; 
 
-}
+    /*boot loader name*/
+    multiboot_uint32_t  bootloader_name; 
 
+    /*APM table*/
+    multiboot_uint32_t  apm_table; 
+
+    /*Video Mode*/
+    multiboot_uint32_t  vbe_control_info;
+    multiboot_uint32_t  vbe_mode_info;
+    multiboot_uint16_t  vbe_mode;
+    multiboot_uint16_t  vbe_interface_seg;
+    multiboot_uint16_t  vbe_interface_off;
+    multiboot_uint16_t  vbe_interface_len;
+
+    multiboot_uint64_t  framebuffer_addr;
+    multiboot_uint32_t  framebuffer_pitch;
+    multiboot_uint32_t  framebuffer_width;
+    multiboot_uint32_t  framebuffer_height;
+    multiboot_uint8_t   framebuffer_bpp;
+
+    /*frame buffer types*/
+    multiboot_uint8_t   framebuffer_type; 
+
+    union
+    {
+    struct
+    {
+      multiboot_uint32_t framebuffer_palette_addr;
+      multiboot_uint16_t framebuffer_palette_num_colors;
+    };
+    struct
+    {
+      multiboot_uint8_t framebuffer_red_field_position;
+      multiboot_uint8_t framebuffer_red_mask_size;
+      multiboot_uint8_t framebuffer_green_field_position;
+      multiboot_uint8_t framebuffer_green_mask_size;
+      multiboot_uint8_t framebuffer_blue_field_position;
+      multiboot_uint8_t framebuffer_blue_mask_size;
+    };
+  };
+};
+typedef struct multiboot_info multiboot_info_t; 
+
+
+struct multiboot_color
+{
+    multiboot_uint8_t   red;
+    multiboot_uint8_t   green; 
+    multiboot_uint8_t   blue; 
+
+};
+
+/*mmap types */ 
+#define MULTIBOOT_MEMORY_AVAILABE           1 
+#define MULTIBOOT_MEMORY_RESERVED           2 
+#define MULTIBOOT_MEMORY_ACPI_RECLAIMABLE   3 
+#define MULTIBOOT_MEMORY_NVS                4 
+#define MULTIBOOT_MEMORY_BADRAM             5 
+
+struct multiboot_mmap_entry
+{
+    multiboot_uint32_t  size;
+    multiboot_uint64_t  addr; 
+    multiboot_uint64_t  len; 
+
+    multiboot_uint32_t   type; 
+
+}__attribute__((packed));
+typedef struct multiboot_mmap_entry multiboot_mmap_entry_t; 
+
+/*module info*/ 
+struct  multiboot_mod_list
+{
+    /*bytes from mod_start to mod_end -1 */ 
+    multiboot_uint32_t  mod_start;
+    multiboot_uint32_t  mod_end; 
+
+    multiboot_uint32_t  cmdline; 
+
+    /*16 bytes pad */ 
+    multiboot_uint32_t  pad; 
+};
+typedef struct multiboot_mod_list multiboot_mod_list_t; 
+
+
+/*APM BIOS info */ 
+struct multiboot_apm_info
+{
+    multiboot_uint16_t  version; 
+    multiboot_uint16_t  cseg; 
+    multiboot_uint16_t  dseg;
+    multiboot_uint16_t  flags;
+    multiboot_uint16_t  cseg_len; 
+    multiboot_uint16_t  cseg_16_len; 
+    multiboot_uint16_t  dseg_len;
+}; 
 
 
