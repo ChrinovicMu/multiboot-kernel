@@ -1,0 +1,132 @@
+
+#ifndef MULTIBOOT_HEADER 
+#define MULTIBOOT_HEADER 1
+
+/*how many bytes from start of file to search for the header */ 
+#define MULTIBOOT_SEARCH            8192 
+#define MULTIBOOT_HEADER_ALIGN      4 
+
+/*magic field */ 
+#define MULTIBOOT_HEADER_MAGIC      0x1BADB002 
+
+/*this goes in eax */ 
+#define MULTIBOOT_BOOTLOADER_MAGIC  0x2BADB002  
+
+/*align bootloader module */ 
+#define MULTIBOOT_MOD_ALIGN         0x00001000
+
+/*alignment of multibnoot info structure*/ 
+#define MULTIBOOT_INFO_ALIGN        0x00000004 
+
+/*all bootloader modules aligned on 4kb bounderies */ 
+#define MULTIBOOT_PAGE_ALIGN        0x00000001
+
+/*must pass memory information to OS*/
+#define MULTIBOOT_MEMORY_INFO       0x00000002 
+
+/*must pass video information to OS*/ 
+#define MULTIBOOT_VIDEO_MODE        0x00000004     
+
+/*flag indecates the use of address filed in header*/
+#define MULTIBOOT_AOUT_KLUDGE       0x00010000 
+
+/*is there basic lower/upper memory*/ 
+#define MULTIBOOT_INFO_MEMORY       0x00000001 
+
+/*is there a boot device set */ 
+#define MULTIBOOT_INFO_BOOTDEV      0x00000002 
+
+/*is the command line defined */ 
+#define MULTIBOOT_INFP_CMDLINE      0x00000004 
+
+/*are the modules to do some taks with */ 
+#define MULTIBOOT_INFO_MODS         0x00000008 
+
+
+/* These next two are mutually exclusive */
+
+/* is there a symbol table loaded? */
+#define MULTIBOOT_INFO_AOUT_SYMS    0x00000010
+/* is there an ELF section header table? */
+#define MULTIBOOT_INFO_ELF_SHDR     0X00000020
+
+/* is there a full memory map? */
+#define MULTIBOOT_INFO_MEM_MAP      0x00000040
+
+/* Is there drive info? */
+#define MULTIBOOT_INFO_DRIVE_INFO   0x00000080
+
+/* Is there a config table? */
+#define MULTIBOOT_INFO_CONFIG_TABLE 0x00000100
+
+/* Is there a boot loader name? */
+#define MULTIBOOT_INFO_BOOT_LOADER_NAME 0x00000200
+
+/* Is there a APM table? */
+#define MULTIBOOT_INFO_APM_TABLE        0x00000400
+
+/* Is there video information? */
+#define MULTIBOOT_INFO_VBE_INFO         0x00000800
+#define MULTIBOOT_INFO_FRAMEBUFFER_INFO 0x00001000
+
+
+
+#ifndef ASM_FILE 
+
+
+typedef unsigned char       multiboot_uint8_t; 
+typedef unsigned short      multiboot_uint16_t; 
+typedef unsigned int        multiboot_uint32_t;
+typedef unsigned long long  multiboot_uint64_t;
+
+
+
+struct multiboot_header
+{
+    multiboot_uint32_t  magic;
+    multiboot_uint32_t  flags; 
+    multiboot_uint32_t  checksum; 
+
+    /*availabe only if MULTIBOOT_AOUT_KLUDGE is set */ 
+    multiboot_uint32_t  header_addr; 
+    multiboot_uint32_t  load_addr; 
+    multiboot_uint32_t  load_end_addr; 
+    multiboot_uint32_t  bss_enf_addr;
+    multiboot_uint32_t  entry_addr; 
+
+    /*availabe only if MULTIBOOT_VIDEO_MODE IS SET*/ 
+    multiboot_uint32_t  mode_type;
+    multiboot_uint32_t  width;
+    multiboot_uint32_t  height;
+    multiboot_uint32_t  depth;
+}; 
+
+
+/*Symbol table for a.out format */ 
+struct multiboot_aout_symbol_table
+{
+    multiboot_uint32_t  tabsize;
+    multiboot_uint32_t  strsize;
+    multiboot_uint32_t  addr; 
+    multiboot_uint32_t  reserved; 
+};
+typedef struct multiboot_aout_symbol_table multiboot_aout_symbol_table_t; 
+
+/*section header table for elf*/
+struct multiboot_elf_section_header_table
+{
+    multiboot_uint32_t  header_num;
+    multiboot_uint32_t  entry_size; 
+    multiboot_uint32_t  header_addr;
+    multiboot_uint32_t  shndx; 
+};
+typedef struct multiboot_elf_section_header_table multiboot_elf_section_header_table_t; 
+
+struct multiboot_info
+{
+    /*multiboot info verson number*/
+    multiboot_uint32_t  flags;
+}
+
+
+
