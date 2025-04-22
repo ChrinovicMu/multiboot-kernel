@@ -126,6 +126,37 @@ struct multiboot_info
 {
     /*multiboot info verson number*/
     multiboot_uint32_t  flags;
+
+    /*availabe memory from BIOS*/ 
+    multiboot_uint32_t  mem_lower; 
+    multiboot_uint32_t  mem_upper; 
+
+    /*root partition */ 
+    multiboot_uint32_t  boot_device; 
+
+    /*kernel command line */ 
+    multiboot_uint32_t  cmdline;
+
+    /*boot module list */ 
+    multiboot_uint32_t mods_count; 
+    multiboot_uint32_t mods_addr; 
+
+    union{
+        multiboot_aout_symbol_table_t           aout_sym;
+        multiboot_elf_section_header_table_t    elf_sec; 
+    }u;
+
+    /*memory mapping buffer */ 
+    multiboot_uint32_t  mmap_length;
+    multiboot_uint32_t  mmap_addr;
+
+    /*drive info buffer */
+    multiboot_uint32_t  drives_length;      /* bytes allocated for drivew info */ 
+    multiboot_uint32_t  drives_addr;        /*addres of info in memory*/
+
+    /*ROM config */ 
+    multiboot_uint32_t  config_table; :wq
+
 }
 
 
