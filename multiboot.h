@@ -208,7 +208,6 @@ struct multiboot_info
 };
 typedef struct multiboot_info multiboot_info_t; 
 
-
 struct multiboot_color
 {
     multiboot_uint8_t   red;
@@ -262,4 +261,6 @@ struct multiboot_apm_info
     multiboot_uint16_t  dseg_len;
 }; 
 
+#endif /* ASM_FILE */ 
 
+#endif /*MULTIBOOT_HEADER */ 
