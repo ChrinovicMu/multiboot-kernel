@@ -136,8 +136,8 @@ struct multiboot_info
     multiboot_uint32_t  flags;
 
     /*availabe memory from BIOS*/ 
-    multiboot_uint32_t  mem_lower; 
-    multiboot_uint32_t  mem_upper; 
+    multiboot_uint32_t  mem_lower;  /*below 1mb */  
+    multiboot_uint32_t  mem_upper;  /*above 1mb */ 
 
     /*root partition */ 
     multiboot_uint32_t  boot_device; 
@@ -235,7 +235,7 @@ struct multiboot_mmap_entry
 typedef struct multiboot_mmap_entry multiboot_mmap_entry_t; 
 
 /*module info*/ 
-struct  multiboot_mod_list
+struct  multiboot_module 
 {
     /*bytes from mod_start to mod_end -1 */ 
     multiboot_uint32_t  mod_start;
@@ -246,7 +246,7 @@ struct  multiboot_mod_list
     /*16 bytes pad */ 
     multiboot_uint32_t  pad; 
 };
-typedef struct multiboot_mod_list multiboot_mod_list_t; 
+typedef struct multiboot_module multiboot_module_t; 
 
 
 /*APM BIOS info */ 

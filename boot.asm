@@ -1,7 +1,6 @@
 %define ASM_FILE 
 %include "multiboot.h"
 
-
 ;C symbol format.
 %ifdef HAVE_ASM_UNSCORE
 %define EXIT_C(sym)     __sym 
